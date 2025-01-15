@@ -1,11 +1,12 @@
+import 'package:cabzing/screen/profilePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mabzing/screen/explore.dart';
-import 'package:mabzing/screen/notification.dart';
-import 'package:mabzing/screen/profilePage.dart';
 
+
+import 'explore.dart';
 import 'homePage.dart';
 import 'login.dart';
+import 'notification.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -35,7 +36,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             width: w * .85,
             // height: 72,
-            height: h * .17,
+            height: h * .12,
+            color: Color(0xff000000),
             // decoration: BoxDecoration(
             //     boxShadow: [
             //       BoxShadow(
