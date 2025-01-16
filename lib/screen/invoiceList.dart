@@ -1,21 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:http/http.dart'as http;
 import 'filterList.dart';
-import 'login.dart';
+import '../features/auth/screen/login.dart';
 
-class InvoiceList extends StatefulWidget {
+class InvoiceList extends ConsumerStatefulWidget {
   const InvoiceList({Key? key}) : super(key: key);
 
   @override
-  State<InvoiceList> createState() => _InvoiceListState();
+  ConsumerState<InvoiceList> createState() => _InvoiceListState();
 }
 
-class _InvoiceListState extends State<InvoiceList> {
+class _InvoiceListState extends ConsumerState<InvoiceList> {
   TextEditingController search = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(

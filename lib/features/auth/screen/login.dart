@@ -1,26 +1,39 @@
+import 'package:cabzing/features/auth/controller/auth_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'dashboard.dart';
+import '../../../screen/dashboard.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
 var h;
 var w;
 
-class _LoginPageState extends State<LoginPage> {
+var currentUserId;
+var token;
+
+class _LoginPageState extends ConsumerState<LoginPage> {
   TextEditingController name = TextEditingController();
   TextEditingController password = TextEditingController();
 
   bool show = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+
     w = MediaQuery.of(context).size.width;
     h = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -29,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/background.png'),
                 fit: BoxFit.cover,
@@ -157,10 +170,20 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: h * 0.07,
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardScreen(),));
-                      },
+                        if(name.text.isNotEmpty&&password.text.isNotEmpty){
+                       ref.watch(authControllerProvider).
+                       createLogin(name.text.trim(), password.text.trim(),context);
+                      }else{
+                          name.text.isEmpty?
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Please Enter Name")),
+                          ):ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Please Enter Password")),
+                          );
+                        }
+                        },
                       child: Container(
                         height: h * 0.08,
                         width: w * 0.4,

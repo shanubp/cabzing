@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'login.dart';
+import '../features/auth/screen/login.dart';
 
 class Profilepage extends StatefulWidget {
   const Profilepage({Key? key}) : super(key: key);
@@ -14,6 +16,8 @@ class Profilepage extends StatefulWidget {
 class _ProfilepageState extends State<Profilepage> {
   @override
   Widget build(BuildContext context) {
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
@@ -171,25 +175,144 @@ class _ProfilepageState extends State<Profilepage> {
                   SizedBox(
                     height: h*0.02,
                   ),
-                  Container(
-                    height: h * 0.08,
-                    width: w * 0.8,
-                    decoration: BoxDecoration(
-                      color: Color(0xff040404),
-                      borderRadius: BorderRadius.circular(30)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(image: AssetImage('assets/logout.png'),width: w*0.06,),
-                        SizedBox(
-                          width: w*0.015,
-                        ),
-                        Text('Logout',style: GoogleFonts.poppins(
-                          color: Color(0xffEA6262),
-                          fontWeight: FontWeight.w400
-                        ),)
-                      ],
+                  GestureDetector(
+                    onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Are you sure you want to logout?",
+                                    style: GoogleFonts.poppins(
+                                        // color: secondaryTextColor,
+                                        fontWeight: FontWeight.w400,
+                                        ),
+                                  ),
+                                  SizedBox(
+                                    height: h*0.04,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Bounce(
+                                        duration:
+                                        const Duration(milliseconds: 110),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Container(
+                                          width: w * 0.3,
+                                          height: h* 0.05,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  offset: const Offset(0, 2),
+                                                  spreadRadius: 3,
+                                                  blurRadius: 5,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.2))
+                                            ],
+                                            color: const Color(0xffD9D9D9),
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              'Cancel',
+                                              style: GoogleFonts.lexend(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: w*0.04,
+                                      ),
+                                      Bounce(
+                                        duration:
+                                        const Duration(milliseconds: 110),
+                                        onPressed: () async {
+                                          // final SharedPreferences localStorage =
+                                          // await SharedPreferences
+                                          //     .getInstance();
+                                          // localStorage.clear();
+                                        },
+                                        child: InkWell(
+                                          child: Container(
+                                            width: w * 0.3,
+                                            height: h * 0.05,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    offset: const Offset(0, 2),
+                                                    spreadRadius: 1,
+                                                    blurRadius: 2,
+                                                    color: Colors.red)
+                                              ],
+                                              // color: mainColor.withOpacity(0.72),
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'Confirm',
+                                                style: GoogleFonts.lexend(
+                                                  fontWeight: FontWeight.w500,
+                                                  // fontSize: fontSize14,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () async {
+                                            var prefs = await SharedPreferences
+                                                .getInstance();
+                                            prefs.clear();
+                                            setState(() {});
+
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => LoginPage(),
+                                                ),
+                                                    (route) => false);
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    child: Container(
+                      height: h * 0.08,
+                      width: w * 0.8,
+                      decoration: BoxDecoration(
+                        color: Color(0xff040404),
+                        borderRadius: BorderRadius.circular(30)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image(image: AssetImage('assets/logout.png'),width: w*0.06,),
+                          SizedBox(
+                            width: w*0.015,
+                          ),
+                          Text('Logout',style: GoogleFonts.poppins(
+                            color: Color(0xffEA6262),
+                            fontWeight: FontWeight.w400
+                          ),)
+                        ],
+                      ),
                     ),
                   )
                 ],

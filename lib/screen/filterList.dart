@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'login.dart';
+import '../features/auth/screen/login.dart';
 
 class FilterList extends StatefulWidget {
   const FilterList({Key? key}) : super(key: key);
@@ -14,6 +14,8 @@ class FilterList extends StatefulWidget {
 class _FilterListState extends State<FilterList> {
   @override
   Widget build(BuildContext context) {
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(

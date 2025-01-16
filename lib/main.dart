@@ -1,8 +1,12 @@
+import 'package:cabzing/screen/splashscreen.dart';
 import 'package:flutter/material.dart';
-import 'screen/login.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'features/auth/screen/login.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(ProviderScope(
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +20,7 @@ class MyApp extends StatelessWidget {
       },
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-         home: LoginPage(),
+         home: SplashScreen(),
       ),
     );
   }

@@ -1,9 +1,12 @@
+import 'package:cabzing/features/auth/repository/auth_repository.dart';
 import 'package:cabzing/screen/invoiceList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'login.dart';
+import '../features/auth/controller/auth_controller.dart';
+import '../features/auth/screen/login.dart';
 
 class HomepageView extends StatefulWidget {
   const HomepageView({Key? key}) : super(key: key);
@@ -15,6 +18,8 @@ class HomepageView extends StatefulWidget {
 class _HomepageViewState extends State<HomepageView> {
   @override
   Widget build(BuildContext context) {
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -189,76 +194,81 @@ class _HomepageViewState extends State<HomepageView> {
               SizedBox(
                 height: h*0.01,
               ),
-              GestureDetector(
-                onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => InvoiceList(),));
+              Consumer(
+                builder: (context, ref, child) {
+                 return GestureDetector(
+                   onTap: () {
+                       ref.watch(authRepositoryProvider).getSalesList();
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => InvoiceList(),));
+                   },
+                   child: Container(
+                     padding: EdgeInsets.all(10),
+                     height: h * 0.14,
+                     // width: w * 0.4,
+                     decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(20),
+                         color: Color(0xff0F0F0F)
+                     ),
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children: [
+                         Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                           children: [
+                             Container(
+                               height: h * 0.12,
+                               width: w*0.1,
+                               decoration: BoxDecoration(
+                                 color: Color(0xffA9C9C5),
+                                 borderRadius: BorderRadius.circular(30),
+                               ),
+                               child: Column(
+                                 mainAxisAlignment: MainAxisAlignment.center,
+                                 children: [
+                                   Image(
+                                       image: AssetImage('assets/moneybag.png'),
+                                       width: w*0.05
+                                   ),
+                                 ],
+                               ),
+                             ),
+                             SizedBox(
+                               width: w*0.02,
+                             ),
+                             Column(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               children: [
+                                 Text('Invoices',style: GoogleFonts.poppins(
+                                     color: Color(0xffA9C9C5)
+                                 ),),
+                                 Text('10,232.00',style: GoogleFonts.poppins(
+                                     color: Colors.white,
+                                     fontWeight: FontWeight.w400,
+                                     fontSize: 25
+                                 ),),
+                                 Text('Rupees',style: GoogleFonts.poppins(
+                                   color: Color(0xff565656),
+                                   fontWeight: FontWeight.w400,
+                                 ),),
+                               ],
+                             ),
+                           ],
+                         ),
+                         Container(
+                           height: h * 0.1,
+                           width: w*0.22,
+                           decoration: BoxDecoration(
+                             color: Color(0xff131313),
+                             borderRadius: BorderRadius.circular(20),
+                           ),
+                           child: Icon(CupertinoIcons.arrow_right,color: Colors.white,),
+                         )
+                       ],
+                     ),
+                   ),
+                 ) ;
                 },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  height: h * 0.14,
-                  // width: w * 0.4,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color(0xff0F0F0F)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: h * 0.12,
-                            width: w*0.1,
-                            decoration: BoxDecoration(
-                              color: Color(0xffA9C9C5),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(
-                                  image: AssetImage('assets/moneybag.png'),
-                                    width: w*0.05
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: w*0.02,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Invoices',style: GoogleFonts.poppins(
-                                  color: Color(0xffA9C9C5)
-                              ),),
-                              Text('10,232.00',style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 25
-                              ),),
-                              Text('Rupees',style: GoogleFonts.poppins(
-                                color: Color(0xff565656),
-                                fontWeight: FontWeight.w400,
-                              ),),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: h * 0.1,
-                        width: w*0.22,
-                        decoration: BoxDecoration(
-                          color: Color(0xff131313),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Icon(CupertinoIcons.arrow_right,color: Colors.white,),
-                      )
-                    ],
-                  ),
-                ),
               ),
             ],
           ),

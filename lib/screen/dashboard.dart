@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'explore.dart';
 import 'homePage.dart';
-import 'login.dart';
+import '../features/auth/screen/login.dart';
 import 'notification.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -23,6 +23,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    w = MediaQuery.of(context).size.width;
+    h = MediaQuery.of(context).size.height;
     return SafeArea(
       child: DefaultTabController(
         length: 4,
