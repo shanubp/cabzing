@@ -1,12 +1,18 @@
+import 'dart:convert';
+
+import 'package:cabzing/model/invoiceModel.dart';
 import 'package:cabzing/screen/profilePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:http/http.dart' as http;
 import 'explore.dart';
 import 'homePage.dart';
 import '../features/auth/screen/login.dart';
 import 'notification.dart';
+
+var userMap ;
+
+var profileData;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -20,6 +26,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final PageStorageBucket _bucket = PageStorageBucket();
   int _index = 0;
   Widget _currentScreen = HomepageView();
+
+  Future fetchPersonalData() async {
+    print('user$currentUserId');
+
+    var headers = {
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request('GET', Uri.parse('https://www.api.viknbooks.com/api/v10/users/user-view/$currentUserId'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+
+      var profile = await response.stream.bytesToString();
+      print('userMap $profile');
+
+       profileData = jsonDecode(profile);
+
+      //  a = {
+      //   'name': profileData['data']['first_name'],
+      //   'email': profileData['data']['email'],
+      //   'photo': profileData['customer_data']['photo']
+      // };
+
+
+
+      print(await response.stream.bytesToString());
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
+
+  @override
+  void initState() {
+    fetchPersonalData();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../features/auth/controller/auth_controller.dart';
 import '../features/auth/screen/login.dart';
+import 'dashboard.dart';
 
 class HomepageView extends StatefulWidget {
   const HomepageView({Key? key}) : super(key: key);
@@ -39,7 +40,8 @@ class _HomepageViewState extends State<HomepageView> {
                         width: w*0.2,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Color(0xff141414)
+                            color: Color(0xff141414),
+                          image: DecorationImage(image:  NetworkImage(profileData['customer_data']['photo'].toString()))
                         ),
                       ),
                       Positioned(
@@ -194,11 +196,8 @@ class _HomepageViewState extends State<HomepageView> {
               SizedBox(
                 height: h*0.01,
               ),
-              Consumer(
-                builder: (context, ref, child) {
-                 return GestureDetector(
+                   GestureDetector(
                    onTap: () {
-                       ref.watch(authRepositoryProvider).getSalesList();
                      Navigator.push(context, MaterialPageRoute(builder: (context) => InvoiceList(),));
                    },
                    child: Container(
@@ -267,9 +266,7 @@ class _HomepageViewState extends State<HomepageView> {
                        ],
                      ),
                    ),
-                 ) ;
-                },
-              ),
+                 )
             ],
           ),
         ),

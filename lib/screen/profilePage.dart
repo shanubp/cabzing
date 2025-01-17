@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../api/api.dart';
 import '../features/auth/screen/login.dart';
+import 'dashboard.dart';
 
 class Profilepage extends StatefulWidget {
   const Profilepage({Key? key}) : super(key: key);
@@ -14,6 +17,14 @@ class Profilepage extends StatefulWidget {
 }
 
 class _ProfilepageState extends State<Profilepage> {
+
+
+  @override
+  void initState() {
+
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     w = MediaQuery.of(context).size.width;
@@ -41,16 +52,18 @@ class _ProfilepageState extends State<Profilepage> {
                         decoration: BoxDecoration(
                           color: Color(0xff000000),
                           borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(image:  NetworkImage(profileData['customer_data']['photo'].toString()))
                         ),
                       ),
                       Column(
                         children: [
-                          Text('David Arnold',style: GoogleFonts.poppins(
+                          Text(profileData['data']['first_name'].toString(),
+                            style: GoogleFonts.poppins(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                             fontSize: 20
                           ),),
-                          Text('david012@cabzing',style: GoogleFonts.poppins(
+                          Text(profileData['data']['email'].toString(),style: GoogleFonts.poppins(
                               color: Color(0xffB5CDFE),
                               fontWeight: FontWeight.w400,
                           ),),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cabzing/api/api.dart';
 import 'package:cabzing/features/auth/screen/login.dart';
@@ -32,12 +33,14 @@ class AuthRepository{
         // print('response ${response.body}');
         // print(response.statusCode);
         final data = jsonDecode(response.body);
-        print('data: ${data['success']}');
+        // log(data);
+        // log('data:$data');
+        print('data userId: ${data['user_id']}');
         print('data: ${data['data']['access']}');
         await prefs.setString('token', data['data']['access']);
         // print('token ${data['token']}');
-        await prefs.setString('userID', data['success'].toString());
-        currentUserId = data['success'].toString();
+        await prefs.setString('userID', data['user_id'].toString());
+        currentUserId = data['user_id'].toString();
         token = data['data']['access'];
 
         print('currentUserId: $currentUserId ');
@@ -58,41 +61,7 @@ class AuthRepository{
     }
   }
 
-  Future<List> getSalesList({
-     String? token,
-     int? branchId,
-     String? companyId,
-     String? userId,
-     int? pageNumber,
-     int? itemsPerPage,
-  }) async {
-    final url = Uri.parse(salesListUrl);
-    final headers = {
-      'Authorization': 'Bearer $token', // Ensure token is passed correctly
-      'Content-Type': 'application/json',
-    };
 
-    final body = jsonEncode({
-      "BranchID": branchId,
-      "CompanyID": companyId,
-      "CreatedUserID": currentUserId,
-      "PriceRounding": 2,
-      "page_no": pageNumber,
-      "items_per_page": itemsPerPage,
-      "type": "Sales",
-      "WarehouseID": 1,
-    });
-
-    final response = await http.post(url, headers: headers, body: body);
-
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      print('Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
-      throw Exception('Failed to fetch sales list');
-    }
-  }
 
 
 
