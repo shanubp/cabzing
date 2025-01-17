@@ -8,6 +8,8 @@ import 'package:fpdart/fpdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../screen/dashboard.dart';
+
 final authRepositoryProvider = Provider((ref) {
   return AuthRepository();
 });
@@ -17,6 +19,9 @@ class AuthRepository{
   Future<Either<String, String>> createLogin(String name, String password) async {
     print(name);
     try {
+
+
+
       final prefs = await SharedPreferences.getInstance();
       final response = await http.post(
         Uri.parse(loginUrl),

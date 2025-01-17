@@ -1,11 +1,11 @@
-class InvoiceModel{
+class ProfileModel{
   final String name;
   final String email;
   final String imageUrl;
   final String id;
 
 //<editor-fold desc="Data Methods">
-  const InvoiceModel({
+  const ProfileModel({
     required this.name,
     required this.email,
     required this.imageUrl,
@@ -15,7 +15,7 @@ class InvoiceModel{
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is InvoiceModel &&
+      (other is ProfileModel &&
           runtimeType == other.runtimeType &&
           name == other.name &&
           email == other.email &&
@@ -28,7 +28,7 @@ class InvoiceModel{
 
   @override
   String toString() {
-    return 'InvoiceModel{' +
+    return 'ProfileModel{' +
         ' name: $name,' +
         ' email: $email,' +
         ' imageUrl: $imageUrl,' +
@@ -36,13 +36,13 @@ class InvoiceModel{
         '}';
   }
 
-  InvoiceModel copyWith({
+  ProfileModel copyWith({
     String? name,
     String? email,
     String? imageUrl,
     String? id,
   }) {
-    return InvoiceModel(
+    return ProfileModel(
       name: name ?? this.name,
       email: email ?? this.email,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -59,8 +59,8 @@ class InvoiceModel{
     };
   }
 
-  factory InvoiceModel.fromMap(Map<String, dynamic> map) {
-    return InvoiceModel(
+  factory ProfileModel.fromMap(Map<String, dynamic> map) {
+    return ProfileModel(
       name: map['name'] as String,
       email: map['email'] as String,
       imageUrl: map['imageUrl'] as String,

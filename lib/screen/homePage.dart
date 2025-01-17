@@ -41,7 +41,8 @@ class _HomepageViewState extends State<HomepageView> {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color(0xff141414),
-                          image: DecorationImage(image:  NetworkImage(profileData['customer_data']['photo'].toString()))
+                          image: DecorationImage(image:
+                          NetworkImage(profileData['customer_data']['photo'].toString()))
                         ),
                       ),
                       Positioned(

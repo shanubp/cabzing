@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cabzing/features/auth/controller/auth_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../screen/dashboard.dart';
 
@@ -23,7 +26,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   TextEditingController name = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  bool show = false;
+  bool show = true;
 
   @override
   void initState() {
@@ -171,11 +174,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       height: h * 0.07,
                     ),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if(name.text.isNotEmpty&&password.text.isNotEmpty){
                        ref.watch(authControllerProvider).
                        createLogin(name.text.trim(), password.text.trim(),context);
-                      }else{
+
+
+                        //  print(await response.stream.bytesToString());
+                        // }
+                        // else {
+                        // print(response.reasonPhrase);
+                        // }
+
+                        }else{
                           name.text.isEmpty?
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("Please Enter Name")),

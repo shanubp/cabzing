@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:cabzing/screen/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,16 +21,50 @@ class _SplashScreenState extends State<SplashScreen> {
     currentUserId = localStorage.getString('userID');
     token = localStorage.getString('token');
 
+    fetchPersonalData();
     setState(() {});
   }
 
+   fetchPersonalData() async {
+    print('user$currentUserId');
 
+    var headers = {
+      'Authorization': 'Bearer $token'
+    };
+    var request = http.Request('GET', Uri.parse('https://www.api.viknbooks.com/api/v10/users/user-view/$currentUserId'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+
+      var profile = await response.stream.bytesToString();
+      print('userMap $profile');
+
+      profileData = jsonDecode(profile);
+
+      //  a = {
+      //   'name': profileData['data']['first_name'],
+      //   'email': profileData['data']['email'],
+      //   'photo': profileData['customer_data']['photo']
+      // };
+
+
+
+      print(await response.stream.bytesToString());
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
 
 
   void initState() {
     getUser();
-    Timer(Duration(seconds: 2), () {
-      if (currentUserId == null) {
+    Timer(Duration(seconds: 3), () {
+      if (currentUserId == null&&profileData==null) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
